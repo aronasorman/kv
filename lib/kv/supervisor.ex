@@ -7,8 +7,7 @@ defmodule Kv.Supervisor do
 
   def init([]) do
     children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Kv.Worker, [])
+                worker(KvServer, [HashDict.new])
     ]
 
     # See http://elixir-lang.org/docs/stable/Supervisor.Behaviour.html
