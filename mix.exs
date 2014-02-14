@@ -20,6 +20,8 @@ defmodule Kv.Mixfile do
   # To specify particular versions, regardless of the tag, do:
   # { :barbat, "~> 0.1", github: "elixir-lang/barbat" }
   defp deps do
-    []
+    [
+     {:cowboy, github: "extend/cowboy", tag: "0.9.0"}
+    ]
   end
 end
