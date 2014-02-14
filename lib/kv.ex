@@ -8,7 +8,7 @@ defmodule Kv do
   end
 end
 
-defmodule KvServer do
+defmodule Kv.Server do
   use GenServer.Behaviour
 
   @name :kvserver
