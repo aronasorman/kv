@@ -21,7 +21,8 @@ defmodule Kv.Mixfile do
   # { :barbat, "~> 0.1", github: "elixir-lang/barbat" }
   defp deps do
     [
-     {:cowboy, github: "extend/cowboy", tag: "0.9.0"}
+     {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
+     {:erlydtl, github: "erlydtl/erlydtl", tag: "0.8.2"},
     ]
   end
 end
