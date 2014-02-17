@@ -19,14 +19,14 @@ defmodule Kv.Frontend do
 
   defp urls do
     [{:_, [
-          {"/", Kv.Frontend.NewURLHandler, []},
+          {"/", Kv.Frontend.NewURLEntryHandler, []},
           {"/:key", Kv.Frontend.RedirectHandler, []},
        ]
     }]
   end
 end
 
-defmodule Kv.Frontend.NewURLHandler do
+defmodule Kv.Frontend.NewURLEntryHandler do
   defrecord State, templates: nil
 
   def init(_transport, req, []) do
