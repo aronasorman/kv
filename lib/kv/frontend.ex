@@ -8,7 +8,8 @@ defmodule Kv.Frontend do
   end
 
   def init([]) do
-    {:ok, :templates} = :erlydtl.compile_dir('lib/templates', :templates)
+    IO.puts "Compiling the templates."
+    :erlydtl.compile_dir('lib/templates', :templates, [out_dir: Mix.Project.build_path])
     dispatch = :cowboy_router.compile urls
     {:ok, _} = :cowboy.start_http(:http, 100,
                                  [port: 8080],
