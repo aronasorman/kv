@@ -20,7 +20,8 @@ defmodule Kv.Frontend do
   defp urls do
     [{:_, [
           {"/", Kv.Frontend.NewURLEntryHandler, []},
-          {"/:key", Kv.Frontend.RedirectHandler, []},
+          {"/create", Kv.Frontend.CreateUrlEntryHandler, []},
+          {"/k/:key", Kv.Frontend.RedirectHandler, []},
        ]
     }]
   end
@@ -53,5 +54,40 @@ defmodule Kv.Frontend.RedirectHandler do
   end
 
   def terminate(_reason, _req, _state) do
+  end
+end
+
+defmodule Kv.Frontend.CreateUrlEntryHandler do
+  def init(_transport, req, []) do
+    {:ok, req, nil}
+  end
+
+  def handle(req, state) do
+    {method, _req} = :cowboy_req.method(req)
+    case method do
+      "POST" ->
+        {:ok, params, req} = :cowboy_req.body_qs(req)
+        {:ok, key} = store_url params["url"]
+        {:ok, req} = :cowboy_req.reply(200, [], key, req)
+        {:ok, req, state}
+      "GET" ->
+        {:ok, req, state}
+    end
+  end
+
+  def terminate(_reason, _req, _state) do
+    :ok
+  end
+
+  defp store_url(url) do
+    digest = :crypto.hash :md5, url
+    hexdigest = (hexstring digest) |> Enum.take 7
+    Kv.Server.put hexdigest, url
+    {:ok, hexdigest}
+  end
+
+  defp hexstring(bin) do
+    ints = bitstring_to_list bin
+    Enum.flat_map ints, &(:io_lib.format('~2.16.0b', [&1]) |> :lists.flatten)
   end
 end
